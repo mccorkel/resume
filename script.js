@@ -8,6 +8,7 @@ const header = document.querySelector('header');
 const introSection = document.querySelector('.intro');
 const intro = document.querySelector('.intro');
 const videoThumbnails = document.querySelectorAll('.video-thumbnail');
+const interestHeaders = document.querySelectorAll('.interest-header');
 
 // Add animation classes to project cards
 projectCards.forEach((card, index) => {
@@ -32,6 +33,23 @@ handleHeaderVisibility();
 
 // Listen for scroll events to update header visibility
 window.addEventListener('scroll', handleHeaderVisibility);
+
+// Interest items expand/collapse functionality
+interestHeaders.forEach(header => {
+  header.addEventListener('click', () => {
+    const interestItem = header.parentElement;
+    
+    // Close all other interest items
+    document.querySelectorAll('.interest-item.active').forEach(item => {
+      if (item !== interestItem) {
+        item.classList.remove('active');
+      }
+    });
+    
+    // Toggle the clicked interest item
+    interestItem.classList.toggle('active');
+  });
+});
 
 // Video Gallery Functionality
 videoThumbnails.forEach(thumbnail => {

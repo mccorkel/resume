@@ -311,22 +311,49 @@ section h2::after {
 }
 
 /* Experience section */
+.experience {
+  margin-bottom: 60px;
+}
+
+.experience h2 {
+  margin-bottom: 35px;
+}
+
 .experience-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 25px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .experience-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   text-align: center;
-  padding: 20px;
+  padding: 25px 15px;
   border-radius: var(--border-radius);
   background-color: var(--card-bg);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   transition: var(--transition);
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+
+.experience-item::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), #4f46e5);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
 }
 
 .experience-item:hover {
@@ -334,21 +361,40 @@ section h2::after {
   box-shadow: var(--box-shadow);
 }
 
-.experience-item img {
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
+.experience-item:hover::before {
+  transform: scaleX(1);
+}
+
+.experience-item .logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
   margin-bottom: 15px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.experience-item img {
+  width: 100%;
+  height: auto;
+  max-height: 100px;
+  object-fit: contain;
   transition: var(--transition);
 }
 
-.experience-item:hover img {
-  transform: scale(1.1);
+.experience-item:hover .logo-container {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .experience-item p {
   font-weight: 500;
   color: var(--text-color);
+  margin-top: auto;
 }
 
 /* Lists styling */
@@ -549,7 +595,31 @@ footer p {
   }
   
   .experience-list {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+  }
+  
+  .experience-item {
+    height: 160px;
+    padding: 20px 10px;
+  }
+  
+  .experience-item .logo-container {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 10px;
+  }
+  
+  .experience-item img {
+    max-height: 70px;
+  }
+  
+  .interest-header h3 {
+    font-size: 1rem;
+  }
+  
+  .interest-content p {
+    font-size: 0.9rem;
   }
   
   section h2 {
@@ -773,4 +843,87 @@ footer p {
 
 .video-player .close-video:hover {
   background-color: var(--primary-color);
+}
+
+/* Interests section */
+.interests {
+  margin-bottom: 60px;
+}
+
+.interest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.interest-item {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.interest-item:hover {
+  box-shadow: var(--box-shadow);
+}
+
+.interest-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  cursor: pointer;
+  background-color: var(--secondary-color);
+  transition: var(--transition);
+}
+
+.interest-header:hover {
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+.interest-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.expand-btn {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 1rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.expand-btn:hover {
+  background-color: rgba(99, 102, 241, 0.2);
+}
+
+.expand-btn i {
+  transition: transform 0.3s ease;
+}
+
+.interest-content {
+  padding: 0 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.5s ease;
+}
+
+.interest-item.active .interest-content {
+  padding: 0 20px 20px;
+  max-height: 1000px;
+}
+
+.interest-item.active .expand-btn i {
+  transform: rotate(180deg);
 }

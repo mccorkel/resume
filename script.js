@@ -4,11 +4,71 @@ const modal = document.getElementById('connectModal');
 const closeButton = document.querySelector('.close');
 const projectCards = document.querySelectorAll('.project-card');
 const sections = document.querySelectorAll('section');
+const header = document.querySelector('header');
+const introSection = document.querySelector('.intro');
+const intro = document.querySelector('.intro');
+const videoThumbnails = document.querySelectorAll('.video-thumbnail');
 
 // Add animation classes to project cards
 projectCards.forEach((card, index) => {
   card.classList.add('fade-in');
   card.style.animationDelay = `${0.1 * (index + 1)}s`;
+});
+
+// Handle header visibility on scroll
+function handleHeaderVisibility() {
+  const introBottom = introSection.getBoundingClientRect().bottom;
+  const scrollPosition = window.scrollY;
+  
+  if (introBottom <= 0 || scrollPosition > 100) {
+    header.classList.add('visible');
+  } else {
+    header.classList.remove('visible');
+  }
+}
+
+// Initial check for header visibility
+handleHeaderVisibility();
+
+// Listen for scroll events to update header visibility
+window.addEventListener('scroll', handleHeaderVisibility);
+
+// Video Gallery Functionality
+videoThumbnails.forEach(thumbnail => {
+  thumbnail.addEventListener('click', () => {
+    const videoId = thumbnail.getAttribute('data-video-id');
+    const videoPlayer = thumbnail.closest('.video-gallery').querySelector('.video-player');
+    
+    // Clear any existing video
+    videoPlayer.innerHTML = '';
+    
+    // Create iframe for YouTube embed
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    iframe.title = "YouTube video player";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+    
+    // Create close button
+    const closeButton = document.createElement('div');
+    closeButton.className = 'close-video';
+    closeButton.innerHTML = '<i class="fas fa-times"></i>';
+    closeButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      videoPlayer.innerHTML = '';
+      videoPlayer.classList.remove('active');
+    });
+    
+    // Add iframe and close button to player
+    videoPlayer.appendChild(iframe);
+    videoPlayer.appendChild(closeButton);
+    videoPlayer.classList.add('active');
+    
+    // Scroll to video player
+    setTimeout(() => {
+      videoPlayer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  });
 });
 
 // Modal functionality
@@ -44,12 +104,19 @@ document.addEventListener('keydown', (e) => {
       modal.style.display = 'none';
     }, 300);
   }
+  
+  // Also close any active video players with Escape key
+  if (e.key === 'Escape') {
+    const activePlayers = document.querySelectorAll('.video-player.active');
+    activePlayers.forEach(player => {
+      player.innerHTML = '';
+      player.classList.remove('active');
+    });
+  }
 });
 
 // Scroll reveal animation
 function revealOnScroll() {
-  const sections = document.querySelectorAll('section');
-  
   sections.forEach(section => {
     const sectionTop = section.getBoundingClientRect().top;
     const windowHeight = window.innerHeight;
@@ -102,7 +169,6 @@ experienceItems.forEach(item => {
 });
 
 // Add a subtle parallax effect to the intro section
-const intro = document.querySelector('.intro');
 window.addEventListener('scroll', () => {
   const scrollPosition = window.scrollY;
   if (scrollPosition < 600) {
@@ -135,38 +201,3 @@ if (introTitle) {
   const originalText = introTitle.textContent;
   typeWriter(introTitle, originalText);
 }
-
-// Add a subtle animation to the header on scroll
-const header = document.querySelector('header');
-let lastScrollTop = 0;
-
-window.addEventListener('scroll', () => {
-  const scrollTop = window.scrollY || document.documentElement.scrollTop;
-  
-  if (scrollTop > lastScrollTop) {
-    // Scrolling down
-    header.style.transform = 'translateY(-100%)';
-  } else {
-    // Scrolling up
-    header.style.transform = 'translateY(0)';
-  }
-  
-  // Don't hide header at the top of the page
-  if (scrollTop <= 50) {
-    header.style.transform = 'translateY(0)';
-  }
-  
-  lastScrollTop = scrollTop;
-});
-
-// Add a small delay before showing the header again to prevent flickering
-let headerTimeout;
-window.addEventListener('scroll', () => {
-  clearTimeout(headerTimeout);
-  
-  headerTimeout = setTimeout(() => {
-    if (window.scrollY <= 50) {
-      header.style.transform = 'translateY(0)';
-    }
-  }, 150);
-});

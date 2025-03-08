@@ -9,6 +9,40 @@ const introSection = document.querySelector('.intro');
 const intro = document.querySelector('.intro');
 const videoThumbnails = document.querySelectorAll('.video-thumbnail');
 const interestHeaders = document.querySelectorAll('.interest-header');
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = themeToggle.querySelector('i');
+
+// Theme toggle functionality
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+  
+  // Update icon
+  if (theme === 'dark') {
+    themeIcon.classList.remove('fa-sun');
+    themeIcon.classList.add('fa-moon');
+  } else {
+    themeIcon.classList.remove('fa-moon');
+    themeIcon.classList.add('fa-sun');
+  }
+}
+
+// Check for saved theme preference or respect OS preference
+const savedTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+if (savedTheme) {
+  setTheme(savedTheme);
+} else if (prefersDark) {
+  setTheme('dark');
+}
+
+// Toggle theme when button is clicked
+themeToggle.addEventListener('click', () => {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  setTheme(newTheme);
+});
 
 // Add animation classes to project cards
 projectCards.forEach((card, index) => {

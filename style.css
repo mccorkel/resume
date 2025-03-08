@@ -1,5 +1,6 @@
 /* Modern Resume Styling with Animations */
 :root {
+  /* Light mode (default) */
   --primary-color: #2563eb;
   --primary-hover: #1d4ed8;
   --secondary-color: #f0f9ff;
@@ -11,6 +12,48 @@
   --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --container-width: 1100px;
+  --intro-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  --card-border: rgba(0, 0, 0, 0.05);
+  --header-bg: rgba(255, 255, 255, 0.95);
+  --header-blur: blur(10px);
+  --modal-overlay: rgba(0, 0, 0, 0.5);
+  --bubble-blue-bg: rgba(99, 102, 241, 0.1);
+  --bubble-blue-text: #4f46e5;
+  --bubble-green-bg: rgba(16, 185, 129, 0.1);
+  --bubble-green-text: #059669;
+  --bubble-yellow-bg: rgba(245, 158, 11, 0.1);
+  --bubble-yellow-text: #d97706;
+  --bubble-red-bg: rgba(239, 68, 68, 0.1);
+  --bubble-red-text: #dc2626;
+  --bubble-cyan-bg: rgba(14, 165, 233, 0.1);
+  --bubble-cyan-text: #0284c7;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  --primary-color: #60a5fa;
+  --primary-hover: #3b82f6;
+  --secondary-color: #1e293b;
+  --text-color: #e2e8f0;
+  --text-light: #94a3b8;
+  --background: #0f172a;
+  --card-bg: #1e293b;
+  --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --intro-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  --card-border: rgba(255, 255, 255, 0.05);
+  --header-bg: rgba(15, 23, 42, 0.95);
+  --header-blur: blur(10px);
+  --modal-overlay: rgba(0, 0, 0, 0.7);
+  --bubble-blue-bg: rgba(99, 102, 241, 0.2);
+  --bubble-blue-text: #818cf8;
+  --bubble-green-bg: rgba(16, 185, 129, 0.2);
+  --bubble-green-text: #34d399;
+  --bubble-yellow-bg: rgba(245, 158, 11, 0.2);
+  --bubble-yellow-text: #fbbf24;
+  --bubble-red-bg: rgba(239, 68, 68, 0.2);
+  --bubble-red-text: #f87171;
+  --bubble-cyan-bg: rgba(14, 165, 233, 0.2);
+  --bubble-cyan-text: #38bdf8;
 }
 
 /* Reset and base styles */
@@ -30,6 +73,7 @@ body {
   color: var(--text-color);
   line-height: 1.7;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -38,9 +82,32 @@ body {
   padding: 0 20px;
 }
 
+/* Theme toggle */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  outline: none;
+  font-size: 1.2rem;
+}
+
+.theme-toggle:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: rotate(30deg);
+}
+
 /* Header styling */
 header {
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: var(--header-bg);
   position: fixed;
   top: 0;
   left: 0;
@@ -48,9 +115,9 @@ header {
   z-index: 100;
   padding: 15px 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(10px);
+  backdrop-filter: var(--header-blur);
   transform: translateY(-100%);
-  transition: transform 0.4s ease;
+  transition: transform 0.4s ease, background-color 0.3s ease;
 }
 
 header.visible {
@@ -61,6 +128,12 @@ header .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 header h1 {
@@ -115,7 +188,7 @@ header h1:hover {
 .intro {
   padding: 100px 0 60px;
   text-align: center;
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  background: var(--intro-gradient);
   border-radius: 0 0 var(--border-radius) var(--border-radius);
   margin-bottom: 60px;
   animation: fadeIn 0.8s ease-out;
@@ -205,7 +278,7 @@ section h2::after {
   transition: var(--transition);
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--card-border);
   margin-left: 20px;
 }
 
@@ -341,6 +414,7 @@ section h2::after {
   height: 180px;
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--card-border);
 }
 
 .experience-item::before {
@@ -376,6 +450,11 @@ section h2::after {
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: var(--transition);
+}
+
+[data-theme="dark"] .experience-item .logo-container {
+  background-color: #ffffff;
 }
 
 .experience-item img {
@@ -461,7 +540,7 @@ footer p {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--modal-overlay);
   backdrop-filter: blur(5px);
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -472,7 +551,7 @@ footer p {
 }
 
 .modal-content {
-  background-color: var(--background);
+  background-color: var(--card-bg);
   margin: 10% auto;
   padding: 40px;
   border-radius: var(--border-radius);
@@ -482,6 +561,7 @@ footer p {
   transform: translateY(20px);
   opacity: 0;
   transition: all 0.4s ease;
+  border: 1px solid var(--card-border);
 }
 
 .modal.show .modal-content {
@@ -492,6 +572,7 @@ footer p {
 .modal-content h2 {
   margin-bottom: 25px;
   text-align: center;
+  color: var(--text-color);
 }
 
 .modal-content a {
@@ -502,6 +583,7 @@ footer p {
   border-radius: var(--border-radius);
   text-align: center;
   transition: var(--transition);
+  color: var(--text-color);
 }
 
 .modal-content a:hover {
@@ -891,6 +973,10 @@ footer p {
   background-color: rgba(99, 102, 241, 0.1);
 }
 
+[data-theme="dark"] .interest-header:hover {
+  background-color: rgba(99, 102, 241, 0.2);
+}
+
 .interest-header h3 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -961,30 +1047,57 @@ footer p {
   transform: translateY(-2px);
 }
 
-/* Color variations for tech bubbles */
+/* Color variations for tech bubbles - light mode */
+:root {
+  --bubble-blue-bg: rgba(99, 102, 241, 0.1);
+  --bubble-blue-text: #4f46e5;
+  --bubble-green-bg: rgba(16, 185, 129, 0.1);
+  --bubble-green-text: #059669;
+  --bubble-yellow-bg: rgba(245, 158, 11, 0.1);
+  --bubble-yellow-text: #d97706;
+  --bubble-red-bg: rgba(239, 68, 68, 0.1);
+  --bubble-red-text: #dc2626;
+  --bubble-cyan-bg: rgba(14, 165, 233, 0.1);
+  --bubble-cyan-text: #0284c7;
+}
+
+/* Color variations for tech bubbles - dark mode */
+[data-theme="dark"] {
+  --bubble-blue-bg: rgba(99, 102, 241, 0.2);
+  --bubble-blue-text: #818cf8;
+  --bubble-green-bg: rgba(16, 185, 129, 0.2);
+  --bubble-green-text: #34d399;
+  --bubble-yellow-bg: rgba(245, 158, 11, 0.2);
+  --bubble-yellow-text: #fbbf24;
+  --bubble-red-bg: rgba(239, 68, 68, 0.2);
+  --bubble-red-text: #f87171;
+  --bubble-cyan-bg: rgba(14, 165, 233, 0.2);
+  --bubble-cyan-text: #38bdf8;
+}
+
 .tech-bubble:nth-child(5n+1) {
-  background-color: rgba(99, 102, 241, 0.1);
-  color: #4f46e5;
+  background-color: var(--bubble-blue-bg);
+  color: var(--bubble-blue-text);
 }
 
 .tech-bubble:nth-child(5n+2) {
-  background-color: rgba(16, 185, 129, 0.1);
-  color: #059669;
+  background-color: var(--bubble-green-bg);
+  color: var(--bubble-green-text);
 }
 
 .tech-bubble:nth-child(5n+3) {
-  background-color: rgba(245, 158, 11, 0.1);
-  color: #d97706;
+  background-color: var(--bubble-yellow-bg);
+  color: var(--bubble-yellow-text);
 }
 
 .tech-bubble:nth-child(5n+4) {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: #dc2626;
+  background-color: var(--bubble-red-bg);
+  color: var(--bubble-red-text);
 }
 
 .tech-bubble:nth-child(5n+5) {
-  background-color: rgba(14, 165, 233, 0.1);
-  color: #0284c7;
+  background-color: var(--bubble-cyan-bg);
+  color: var(--bubble-cyan-text);
 }
 
 /* About Me section */
@@ -1006,6 +1119,7 @@ footer p {
   box-shadow: var(--box-shadow);
   position: relative;
   background-color: rgba(99, 102, 241, 0.05);
+  border: 1px solid var(--card-border);
 }
 
 .about-photo img {
@@ -1025,6 +1139,7 @@ footer p {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--card-bg);
 }
 
 .placeholder-icon i {
